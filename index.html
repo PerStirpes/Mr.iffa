@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss/dist/tailwind.min.css" rel="stylesheet">
+
+    <title>Affirm Demo</title>
+</head>
+
+<body class="container mx-auto px-4">
+    <div>
+        <h2>Checkout Page - Select Payment Method</h2>
+        <form class="w-full max-w-xs">
+
+            <input type="radio" value="Affirm" checked="checked">
+            <svg class="fill-current text-teal inline-block h-12 w-12" viewBox="0 0 238.7 69.3">
+                <path d="M124.6 0c-4 0-7.3 3.3-7.3 7.3s3.3 7.3 7.3 7.3 7.3-3.3 7.3-7.3-3.3-7.3-7.3-7.3zM118.3 19.5h12.5v49.8h-12.5zM168.4 18.2c-6.3 0-13.5 4.5-15.8 10.2v-8.9h-11.9v49.8h12.5V46.2c0-9.8 3.8-15.3 11.9-15.4l7-12.3c-.6-.2-3-.3-3.7-.3zM218.8 18.2c-5.4 0-10.2 2-13.6 5.7l-.2.2-.2-.2c-3.3-3.7-8.1-5.7-13.5-5.7-11.5 0-19.9 8.4-19.9 20v31.1h12.3V37.9c0-4.9 3-8 7.5-8 4.6 0 7.6 3.1 7.6 8v31.4h12.3V37.9c0-4.9 3-8 7.6-8s7.6 3.1 7.6 8v31.4h12.3V38.2c.1-11.6-8.3-20-19.8-20zM104.7 10.2c1.5-1.2 3.8-1 5.6-.9l2.4-9.1-1.3-.1c-5.2-.3-10.7-.7-15.3 2.4-3.9 2.6-5.6 7-5.6 11.5v5.4H75.6v-4.6c0-1.6.2-3.6 1.6-4.7 1.5-1.2 3.8-1 5.7-.9L85.3.1 84 .2c-5.3-.3-10.8-.7-15.4 2.4-3.8 2.6-5.5 7-5.5 11.4v5.4h-5.6v9.1h5.6v40.8h12.5V28.5h14.9v40.8H103V28.5h8.7v-9.1H103v-4.6c.1-1.5.3-3.5 1.7-4.6zM44.7 18.2c-2.4-.2-4.9.7-6.4 2.7L0 69.3h9.4c3.8 0 6.8-2 9-4.9l21.2-26.8v31.7h11.5v-44c0-3.7-2.8-6.7-6.4-7.1z"></path>
+            </svg>
+            <h3>How does Affirm work?</h3>
+
+            <span>
+                Just enter your basic information and get a real-time credit decision. You will complete your
+                payment
+                on the Affirm website. If you're approved and confirm your loan, your purchase will be on its way
+                as
+                soon as it's ready.
+            </span>
+
+
+        </form>
+        <input class="shadow bg-purple hover:bg-purple-light focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
+            type="button" value="Affirm Checkout" id="submit-form" />
+    </div>
+</body>
+<script>
+    /**************************************************************\
+                Include Affirm.js Snippet
+    \**************************************************************/
+    var _affirm_config = {
+        public_api_key: "ARQBLCL7NAMBTZ7F",  /* replace with public api key */
+        script: "https://cdn1-sandbox.affirm.com/js/v2/affirm.js"
+    };
+    (function (l, g, m, e, a, f, b) { var d, c = l[m] || {}, h = document.createElement(f), n = document.getElementsByTagName(f)[0], k = function (a, b, c) { return function () { a[b]._.push([c, arguments]) } }; c[e] = k(c, e, "set"); d = c[e]; c[a] = {}; c[a]._ = []; d._ = []; c[a][b] = k(c, a, b); a = 0; for (b = "set add save post open empty reset on off trigger ready setProduct".split(" "); a < b.length; a++)d[b[a]] = k(c, e, b[a]); a = 0; for (b = ["get", "token", "url", "items"]; a < b.length; a++)d[b[a]] = function () { }; h.async = !0; h.src = g[f]; n.parentNode.insertBefore(h, n); delete g[f]; d(g); l[m] = c })(window, _affirm_config, "affirm", "checkout", "ui", "script", "ready");
+
+
+    /**************************************************************\
+              Set Affirm Checkout Values
+    \**************************************************************/
+    affirm.checkout({
+
+        "config": {
+            "financial_product_key": "CN29VP56R79EMSEI", //replace with your Affirm financial product key
+        },
+
+        "merchant": {
+            "user_cancel_url": "https://examplemerchant.com/checkout/payment",
+            "user_confirmation_url": "https://examplemerchant.com/confirm_affirm_charge",
+            "user_confirmation_url_action": "POST"
+        },
+
+        //shipping contact
+        "shipping": {
+            "name": {
+                "first": "John",
+                "last": "Doe"
+                // You can also include the full name
+                // "full" : "John Doe"
+            },
+            "address": {
+                "line1": "225 Bush Street",
+                "line2": "Floor 16",
+                "city": "San Francisco",
+                "state": "CA",
+                "zipcode": "94104"
+            },
+            "email": "joe.doe@email.com",
+            "phone_number": "4155555555"
+        },
+
+        // cart 
+        "items": [{
+            "display_name": "Acme SLR-NG",
+            "sku": "ACME-SLR-NG-01",
+            "unit_price": 1500,
+            "qty": 1,
+            "item_image_url": "https://examplemerchant.com/static/item.png",
+            "item_url": "https://examplemerchant.com/acme-slr-ng-01.htm",
+        }],
+
+        // pricing / charge amount
+        "currency": "USD",
+        "discounts": {
+            "savemoney123": {
+                "discount_amount": 500
+            }
+        },
+        "tax_amount": 199,
+        "shipping_amount": 399,
+        "total": 1598
+    });
+
+
+    /**************************************************************\
+                  Handle the form submission
+    \**************************************************************/
+    // $("#submit-form").click(function () {
+    //     affirm.checkout.post();
+    // });
+</script>
+<script>
+    (() => {
+        const $ = document.body
+        const affirmButton = $.querySelector('#submit-form').addEventListener(
+            'click',
+            () => {
+                affirm.checkout.post();
+            }
+        )
+    }
+    )()
+</script>
+
+</html>
